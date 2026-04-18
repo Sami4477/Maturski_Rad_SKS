@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspored Časova - Beta</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: hsl(219, 59%, 58%);
+            --primary-hover: hsl(219, 59%, 68%);
+            --background: #f0f0f0;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .beta-banner {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .beta-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            to { left: 100%; }
+        }
+
+        .header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            max-width: 100px;
+            transform-origin: left center;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+        }
+
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .grade-selector h2 {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .grade-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .grade-button {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .grade-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: var(--text-primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .nav-menu.active {
+                display: flex;
+                animation: slideIn 0.3s ease-out;
+            }
+
+            @keyframes slideIn {
+                from { opacity: 0; transform: translateX(-100%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .grade-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="beta-banner">
+        <i class="fas fa-flask"></i> Beta Version - We're continuously improving! Your feedback is valuable.
+    </div>
+    
+    <header class="header">
+        <div class="header-content">
+            <img id="logo" class="logo" src="logo.png" alt="Logo škole">
+            <button class="menu-button" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-menu">
+                <a href="/"><i class="fas fa-user"></i> Home</a>
+                <a href="/login"><i class="fas fa-user"></i> Login</a>
+                <a href="update-log.html"><i class="fas fa-history"></i> Update Log</a>
+                <a href="https://obala.edu.ba" target="_blank"><i class="fas fa-school"></i> Stranica od škole</a>
+                <a href="https://www.facebook.com/p/JU-GIMNAZIJA-OBALA-Sarajevo-61556094580995/" target="_blank">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+                <a href="https://www.instagram.com/niki182_/" target="_blank">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h1>Raspored Časova</h1>
+            <div class="grade-selector">
+                <h2>Odaberite razred:</h2>
+                <div class="grade-buttons">
+                    <button class="grade-button" onclick="location.href='grade1.html'">
+                        <i class="fas fa-graduation-cap"></i> I Razred
+                    </button>
+                    <button class="grade-button" onclick="location.href='grade2.html'">
+                        <i class="fas fa-graduation-cap"></i> II Razred
+                    </button>
+                    <button class="grade-button" onclick="location.href='grade3.html'">
+                        <i class="fas fa-graduation-cap"></i> III Razred
+                    </button>
+                    <button class="grade-button" onclick="location.href='grade4.html'">
+                        <i class="fas fa-graduation-cap"></i> IV Razred
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Niki. All rights reserved.</p>
+        <div style="margin-top: 1rem;">
+            <a href="kontakt.html"><i class="fas fa-envelope"></i> Kontakt</a>
+            <a href="info.html" target="_blank"><i class="fas fa-info-circle"></i> O meni</a>
+            <a href="zahvala.html"><i class="fas fa-heart"></i> Zahvala</a>
+        </div>
+    </footer>
+
+    <script>
+        // Menu functionality
+        const menuButton = document.querySelector('.menu-button');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            navMenu.classList.toggle('active');
+            menuButton.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (navMenu.classList.contains('active') && !event.target.closest('.nav-menu')) {
+                navMenu.classList.remove('active');
+                menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add loading animation to grade buttons
+        document.querySelectorAll('.grade-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.style.opacity = '0.7';
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            });
+        });
+
+        // Beta banner dismiss functionality
+        const betaBanner = document.querySelector('.beta-banner');
+        if (betaBanner && !localStorage.getItem('betaBannerDismissed')) {
+            betaBanner.innerHTML += '<button onclick="dismissBetaBanner()" style="margin-left: 10px; padding: 2px 8px; border: 1px solid white; background: transparent; color: white; border-radius: 3px; cursor: pointer;">Dismiss</button>';
+        }
+
+        function dismissBetaBanner() {
+            localStorage.setItem('betaBannerDismissed', 'true');
+            betaBanner.style.animation = 'slideUp 0.5s ease-out forwards';
+            setTimeout(() => betaBanner.remove(), 500);
+        }
+
+        // Add page transition effect
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

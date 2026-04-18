@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IV Razred - Raspored Časova</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: hsl(219, 59%, 58%);
+            --primary-hover: hsl(219, 59%, 68%);
+            --background: #f0f0f0;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+            color: var(--primary-color);
+        }
+
+        .container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .content {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .class-selector {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        h2 {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .class-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.25rem;
+    padding: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.class-button {
+    background: linear-gradient(135deg, var(--primary-color), hsl(219, 65%, 52%));
+    border: none;
+    color: white;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.class-button i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+
+.class-button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, hsl(219, 65%, 52%), var(--primary-color));
+}
+.class-button:hover i {
+    transform: rotate(10deg);
+}
+
+/* Active State */
+.class-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Selected State */
+.class-button.selected {
+    background: linear-gradient(135deg, hsl(219, 70%, 45%), hsl(219, 70%, 40%));
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(0.98);
+}
+
+/* Ripple Effect */
+.class-button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.class-button:hover::after {
+    opacity: 1;
+}
+
+/* Loading State */
+.class-button.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.class-button.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .class-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .class-button {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .class-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+.schedule {
+    overflow-x: auto;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.schedule table {
+    width: 100%;
+    min-width: 800px; 
+    border-collapse: collapse;
+    background: white;
+}
+@media (max-width: 768px) {
+    .schedule {
+        position: relative;
+        background: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0)),
+                    linear-gradient(to left, white 30%, rgba(255, 255, 255, 0)) 100% 0;
+        background-size: 50px 100%;
+        background-repeat: no-repeat;
+        background-attachment: local;
+    }
+    .schedule table {
+        margin: auto;
+    }
+    .schedule th, .schedule td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    .schedule th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: var(--primary-color);
+    }
+
+      /* First column (time) stays fixed */
+      .schedule td:first-child,
+    .schedule th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 5;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .schedule th:first-child {
+        z-index: 15; /* Higher than regular headers to stay on top */
+    }
+}
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .schedule th, .schedule td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schedule th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .schedule tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .schedule td:hover {
+            background-color: #f0f4f8;
+            transform: scale(1.02);
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .control-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: var(--text-primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem auto;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .class-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule {
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            footer a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @media print {
+            .header, .controls, footer {
+                display: none;
+            }
+
+            .content {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .schedule {
+                overflow: visible;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Nazad
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h1>IV Razred - Raspored Časova</h1>
+            <div class="class-selector">
+                <h2>Odaberite odjeljenje:</h2>
+                <div id="class-buttons" class="class-buttons">
+                <!-- Automatski se dodaje dugme -->
+                </div>
+            </div>
+            <div id="class-schedule" class="schedule">
+                <!-- Automatski se dodaje raspored -->
+            </div>
+            <div class="controls">
+                <button id="mirror-button" class="control-button" onclick="mirrorSchedule()">
+                    <i class="fas fa-sync-alt"></i> Ogledalo Rasporeda
+                </button>
+                <a href="index.html" class="control-button">
+                    <i class="fas fa-home"></i> Nazad na početnu
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <a href="kontakt.html"><i class="fas fa-envelope"></i> Kontakt</a>
+            <a href="info.html" target="_blank"><i class="fas fa-info-circle"></i> O meni</a>
+            <a href="zahvala.html"><i class="fas fa-heart"></i> Zahvala</a>
+        </div>
+    </footer>
+
+    <script src="grade4.js"></script>
+    <script>
+    
+        document.querySelectorAll('.class-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.add('loading');
+                setTimeout(() => this.classList.remove('loading'), 1000);
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

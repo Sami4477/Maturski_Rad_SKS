@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Add/Update Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, textarea, button {
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        textarea {
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel - Add/Update Schedule</h1>
+    <form id="add-schedule-form">
+        <input type="text" id="class-id" placeholder="Class ID (e.g., 2-1)" required>
+        <textarea id="schedule-data" placeholder="Schedule data in JSON format" required></textarea>
+        <button type="submit">Add/Update Schedule</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+    document.getElementById('add-schedule-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const classId = document.getElementById('class-id').value;
+        const scheduleData = document.getElementById('schedule-data').value;
+
+        let parsedSchedule;
+        try {
+            parsedSchedule = JSON.parse(scheduleData);
+        } catch (error) {
+            document.getElementById('message').textContent = 'Invalid JSON format. Please check your input.';
+            return;
+        }
+
+        fetch('/add-full-schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ classId, schedule: parsedSchedule }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('message').textContent = 'Schedule added/updated successfully';
+            } else {
+                document.getElementById('message').textContent = 'Error: ' + data.error;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('message').textContent = 'An error occurred while adding/updating the schedule';
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.logo {
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.class-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.class-buttons button, #mirror-button, .back-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.class-buttons button:hover, #mirror-button:hover, .back-button:hover {
+    background-color: #0056b3;
+}
+
+.schedule {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.schedule table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.schedule th, .schedule td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.schedule th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.schedule tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+#mirror-button {
+    margin-top: 20px;
+    background-color: #28a745;
+}
+
+#mirror-button:hover {
+    background-color: #218838;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #6c757d;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+footer a {
+    margin: 0 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
