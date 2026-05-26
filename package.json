@@ -1,0 +1,19 @@
+{
+  "name": "school-scheduler",
+  "version": "1.0.0",
+  "description": "Full-stack Node.js app for managing rotating school schedules (Week A/B) with SQLite and vanilla frontend.",
+  "main": "src/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.4.1",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
+
